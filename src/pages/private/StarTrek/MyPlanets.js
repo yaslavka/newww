@@ -85,10 +85,13 @@ function MyPlanets() {
   const [activePlanet, setActivePlanet] = useState(0)
 
   const [infoPlanet, setInfoPlanet] = useState({namePlanet: 'Mercury', frozen: '', comets: '', dateCreate: '', sum: '', id: ''})
-
+  const [viewSolary, setViewSolary] = useState('')
   useEffect(()=>{
-    if (list[activePlanet] !== undefined) {
-      setInfoPlanet({...infoPlanet, id: list[activePlanet].id, level: list[activePlanet].level, dateCreate: list[activePlanet].dateCreate, sum: list[activePlanet].sum})
+    list!==undefined&&setViewSolary( solaryList.filter((el,i)=>list[i]!==undefined))
+    if (list!==undefined&&typeof list[0] !== 'undefined') {
+      if(list[activePlanet]!==undefined) {
+        setInfoPlanet({...infoPlanet, id: list[activePlanet].id, level: list[activePlanet].level, dateCreate: list[activePlanet].dateCreate, sum: list[activePlanet].sum})
+      }
     }
   },[list, activePlanet])
 
@@ -96,21 +99,21 @@ function MyPlanets() {
 
 
   const [solaryList, setSolaryList]  = useState([{count: 0, namePlanet: 'Mercury', classItem:['mercury-line-1'], classPlanet: ['mercury active-planet'], classDescr: ['mercury-descr planet-descr'], descr: 'mercury'},
-  {count: 1, namePlanet: 'Venus', classItem:['venus-line-1'], classPlanet: ['venus'], classDescr: ['venus-descr planet-descr'], descr: 'venus'},
-  {count: 2, namePlanet: 'Earth', classItem:['earth-line-1'], classPlanet: ['earth'], classDescr: ['earth-descr planet-descr'], descr: 'earth'},
-  {count: 3, namePlanet: 'Mars', classItem:['mars-line-1'], classPlanet: ['mars'], classDescr: ['mars-descr planet-descr'], descr: 'mars'},
-  {count: 4, namePlanet: 'Jupiter', classItem:['jupiter-line-1'], classPlanet: ['jupiter'], classDescr: ['jupiter-descr planet-descr'], descr: 'jupiter'},
-  {count: 5, namePlanet: 'Saturn', classItem:['saturn-line-1'], classPlanet: ['saturn'], classDescr: ['saturn-descr planet-descr'], descr: 'saturn'},
-  {count: 6, namePlanet: 'Urans', classItem:['urans-line-1'], classPlanet: ['urans'], classDescr: ['urans-descr planet-descr'], descr: 'urans'},
-  {count: 7, namePlanet: 'Neptune', classItem:['neptune-line-1'], classPlanet: ['neptune'], classDescr: ['neptune-descr planet-descr'], descr: 'neptune'}
+    {count: 1, namePlanet: 'Venus', classItem:['venus-line-1'], classPlanet: ['venus'], classDescr: ['venus-descr planet-descr'], descr: 'venus'},
+    {count: 2, namePlanet: 'Earth', classItem:['earth-line-1'], classPlanet: ['earth'], classDescr: ['earth-descr planet-descr'], descr: 'earth'},
+    {count: 3, namePlanet: 'Mars', classItem:['mars-line-1'], classPlanet: ['mars'], classDescr: ['mars-descr planet-descr'], descr: 'mars'},
+    {count: 4, namePlanet: 'Jupiter', classItem:['jupiter-line-1'], classPlanet: ['jupiter'], classDescr: ['jupiter-descr planet-descr'], descr: 'jupiter'},
+    {count: 5, namePlanet: 'Saturn', classItem:['saturn-line-1'], classPlanet: ['saturn'], classDescr: ['saturn-descr planet-descr'], descr: 'saturn'},
+    {count: 6, namePlanet: 'Urans', classItem:['urans-line-1'], classPlanet: ['urans'], classDescr: ['urans-descr planet-descr'], descr: 'urans'},
+    {count: 7, namePlanet: 'Neptune', classItem:['neptune-line-1'], classPlanet: ['neptune'], classDescr: ['neptune-descr planet-descr'], descr: 'neptune'}
   ])
 
-  let viewSolary = solaryList.filter((el,i)=>list[i]!==undefined)
-  console.log(list)
+
+
 
 
   useMemo(()=>{
-    if (list[activePlanet] !== undefined) {
+    if (list!==undefined&&list[activePlanet] !== undefined) {
       setInfoPlanet({...infoPlanet, id: list[activePlanet].id, namePlanet: viewSolary[activePlanet].namePlanet , frozen: !list[activePlanet].frozen ? 'Откл':'Вкл', comets: list[activePlanet].comets, dateCreate: list[activePlanet].dateCreate, sum: list[activePlanet].sum, level: list[activePlanet].level})
     }
   },[list, activePlanet])
@@ -157,6 +160,14 @@ function MyPlanets() {
               </ul>
             </div>
           </div>
+
+
+
+
+
+
+
+
           {/* <div className="text-center">
             <h3>
               Авто-продление планет{' '}
@@ -223,52 +234,61 @@ function MyPlanets() {
             )}
           </div> */}
 
-              {!isEmpty(list) ?
-              <div className='solry-all-block'>
-                 <div className='solary-card'>
-                    <div className='solary-block'>
-                      <div className="wrapper-solary">
-                      <div className="sun">
 
-                      </div>
 
-                      {viewSolary.map((e,i)=>
-                        <div className={e.classItem.join` `}><div className={e.classPlanet.join` `}><p className={e.classDescr.join` `}>{list[i].values}</p></div></div>
-                        )}
+
+
+
+
+
+
+
+          {!isEmpty(list) ?
+            <div className='solry-all-block'>
+              <div className='solary-card'>
+                <div className='solary-block'>
+                  <div className="wrapper-solary">
+                    <div className="sun">
+
                     </div>
-                    </div>
-                  </div>
-                  <div className="planets-block">
-                    <ul className="planets-list" onClick={handleOnSetPlanetForUpdate}>
-                    {viewSolary.map(e=><li className='planet-btn-item'><button className={'planet-btn'} id={e.count} onClick={e=>{setActivePlanet(e.target.id)}}>{e.namePlanet}</button></li>)}
-                    </ul>
-                    {!isLoading && (
-                      <div className="mt-3 btn-clear-block">
-                        <btn className="btn-clear-space" onClick={handleSelectAllOnPage}>
-                          {selected.length !== list.length ? 'Выбрать' : 'Убрать'} все
-                        </btn>
-                      </div>
+
+                    {viewSolary.map((e,i)=>
+                      <div className={e.classItem.join` `}><div className={e.classPlanet.join` `}><p className={e.classDescr.join` `}>{list[i].values}</p></div></div>
                     )}
-                    {!isEmpty(selected) &&
-                    <div className='update-planet-block'>
-                             <button
-                              onClick={handleOnPlanetsUpdate}
-                              disabled={isUpdateLoading}
-                              loading={isUpdateLoading}
-                              className={'btn-clear-space'}
-                            >
-                              Продлить выбранные
-                            </button>
-                        </div>
-                    }
                   </div>
+                </div>
               </div>
+              <div className="planets-block">
+                <ul className="planets-list" onClick={handleOnSetPlanetForUpdate}>
+                  {viewSolary.map(e=><li className='planet-btn-item'><button className={'planet-btn'} id={e.count} onClick={e=>{setActivePlanet(e.target.id)}}>{e.namePlanet}</button></li>)}
+                </ul>
+                {!isLoading && (
+                  <div className="mt-3 btn-clear-block">
+                    <btn className="btn-clear-space" onClick={handleSelectAllOnPage}>
+                      {selected.length !== list.length ? 'Выбрать' : 'Убрать'} все
+                    </btn>
+                  </div>
+                )}
+                {!isEmpty(selected) &&
+                <div className='update-planet-block'>
+                  <button
+                    onClick={handleOnPlanetsUpdate}
+                    disabled={isUpdateLoading}
+                    loading={isUpdateLoading}
+                    className={'btn-clear-space'}
+                  >
+                    Продлить выбранные
+                  </button>
+                </div>
+                }
+              </div>
+            </div>
 
-               :
-                <Col>
-                  <h4 className="text-center mb-4 mt-4">Солнечная системма не активирована</h4>
-                </Col>
-              }
+            :
+            <Col>
+              <h4 className="text-center mb-4 mt-4">Солнечная системма не активирована</h4>
+            </Col>
+          }
 
         </Col>
 

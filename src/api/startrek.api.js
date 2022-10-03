@@ -7,7 +7,7 @@ export const startrekStatistic = () => baseInstance({ url: 'star-trek/table', me
 export const startrekBuy = () => baseInstance({ url: 'star-trek/buy', method: 'post' })
 
 export const startrekPlanets = (params) =>
-  baseInstance({ url: 'star-trek/list', method: 'get', params })
+  baseInstance({ url: 'star-trek/planets', method: 'get', params })
 
 
 export const startrekPlanetsUpdate = (planets) =>
